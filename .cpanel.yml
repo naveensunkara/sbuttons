@@ -2,4 +2,8 @@
 deployment:
   tasks:
     - export DEPLOYPATH=/home2/karnavco/public_html/sbuttons
-    - /home2/karnavco/sbuttons index.html $DEPLOYPATH
+    - export REPOPATH=/home2/karnavco/sbuttons
+    - /bin/rsync -aP --exclude '.git' --exclude '.well-known' ${REPOPATH}/ ${DEPLOYPATH} --delete-after
+    - /bin/chmod 755 ${DEPLOYPATH}
+    - /bin/find ${DEPLOYPATH} -type d -exec /bin/chmod 755 '{}' \;
+    - /bin/find ${DEPLOYPATH} -type f -exec /bin/chmod 644 '{}' \;
